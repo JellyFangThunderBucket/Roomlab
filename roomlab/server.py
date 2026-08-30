@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from .models import Project, FurnitureItem, LayoutRequest
 from .furniture import builtins
 from .layout import generate
+from .layout import score_layout
 from .storage import Storage
 
 static=Path(__file__).parent/'static'; app=FastAPI(title='ROOMLAB',version='1.0.0'); store=Storage()
@@ -38,5 +39,9 @@ def duplicate(name:str,new_name:str):
     except (ValueError,FileNotFoundError) as e: raise HTTPException(422,str(e))
 @app.post('/api/layout')
 def layout(req:LayoutRequest): return generate(req.room,req.furniture,req.features)
+@app.post('/api/analyze')
+def analyze(req:LayoutRequest):
+    score, breakdown, reasons, analysis = score_layout(req.furniture,req.room,req.features)
+    return {"score":score,"score_breakdown":breakdown,"reasons":reasons,"analysis":analysis}
 @app.post('/api/export')
 def export(p:Project): return p

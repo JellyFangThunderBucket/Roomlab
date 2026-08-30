@@ -98,7 +98,7 @@ roomlab serve --reload
 
 ## Current limitations
 
-- Furniture multi-selection, multi-item alignment, and even distribution are not yet included; single-item alignment is available.
+- Shift-click multi-selection supports edge/center alignment and horizontal/vertical distribution; dragging a selected group as one unit is not yet included.
 - Wall features use direct prompts rather than a dedicated property inspector. Closets/radiators/fireplaces are wall marks; columns are floor rectangles.
 - The deterministic generator is intentionally compact. It considers primary wall placement, bounds, collisions, and door swings, but does not yet calculate a navigable path graph or window-height compatibility.
 - Measurement is point-to-point; selected-item wall distances are automatic, while explicit edge-to-edge furniture measurement is not yet a separate mode.
@@ -107,3 +107,9 @@ roomlab serve --reload
 ## Structure
 
 `roomlab/geometry.py` and `layout.py` contain reusable measurement/layout logic; `storage.py` owns safe JSON persistence; `server.py` exposes the API; `static/` is the no-build browser application; and `tests/` covers parsing, geometry, layout, and asset/API delivery.
+
+## Semantic layout analysis
+
+Catalog objects now describe their wall preference, anchor/access edge, directional clearances, window behavior, centering preference, and relationships. The generator uses that metadata (with name-based compatibility defaults for older saved projects) to produce meaningful bed offsets, optional bedside-table arrangements, wall-segment-aware dresser positions, and an explainable score breakdown. Door openings and inward swing sectors are scored separately; windows remain usable wall segments but apply semantic obstruction penalties.
+
+Circulation is an intentionally conservative planning approximation, not a code determination. A 3-inch occupancy grid uses breadth-first search from the primary doorway into the central open area and reports entry status plus approximate minimum walkway. The UI also keeps the distinct physical-fit and usability judgments.
