@@ -44,7 +44,7 @@ def usable_wall_segments(wall, room, features, minimum=0):
         else: merged.append((start,end))
     cursor=0; result=[]
     for start,end in merged:
-        if start-cursor >= minimum: result.append((cursor,start))
+        if start-cursor >= minimum and start > cursor: result.append((cursor,start))
         cursor=max(cursor,end)
     length=wall_length(wall,room)
     if length-cursor >= minimum: result.append((cursor,length))
@@ -86,7 +86,7 @@ def door_swing_intersects(item, feature, room):
     if hypot(cx-hx,cy-hy) > feature.width: return False
     # The interior half-plane plus the hinge-side quadrant defines the sweep.
     if feature.wall=="north": inward=y2>0; lateral=(x2>=hx if feature.hinge=="left" else x1<=hx)
-    elif feature.wall=="south": inward=y1<room.length; lateral=(x2>=hx if feature.hinge=="right" else x1<=hx)
+    elif feature.wall=="south": inward=y1<room.length; lateral=(x2>=hx if feature.hinge=="left" else x1<=hx)
     elif feature.wall=="west": inward=x2>0; lateral=(y2>=hy if feature.hinge=="left" else y1<=hy)
     else: inward=x1<room.width; lateral=(y2>=hy if feature.hinge=="right" else y1<=hy)
     return inward and lateral

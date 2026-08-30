@@ -36,7 +36,7 @@ def bed_candidates(bed,room,features):
         width=footprint(probe)[0] if wall in ("north","south") else footprint(probe)[1]
         for start,end in usable_wall_segments(wall,room,features,width):
             center=(start+end-width)/2
-            positions=(center,center-12,center+12,start,end-width)
+            positions=(start,end-width,center,center-12,center+12)
             for along in positions:
                 candidate=_position_on_wall(deepcopy(bed),wall,max(start,min(end-width,along)),room)
                 if not inside_room(candidate,room.width,room.length): continue
