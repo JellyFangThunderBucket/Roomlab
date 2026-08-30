@@ -1,16 +1,19 @@
-from fastapi.testclient import TestClient
-from roomlab.server import app
+from roomlab.models import LayoutRequest, Room
+from roomlab.server import analyze, furniture, health, index, static
 
-def test_assets_and_api(tmp_path,monkeypatch):
- c=TestClient(app)
- assert c.get('/').status_code==200
- assert c.get('/static/app.js').status_code==200
- assert len(c.get('/api/furniture').json())>=41
- assert c.get('/api/health').json()=={'status':'ok'}
+
+def test_assets_and_api(tmp_path, monkeypatch):
+    response = index()
+    assert response.status_code == 200
+    assert str(response.path).endswith("index.html")
+    assert (static / "app.js").is_file()
+    assert (static / "gestures.js").is_file()
+    assert (static / "interactions.js").is_file()
+    assert len(furniture()) >= 41
+    assert health() == {"status": "ok"}
+
 
 def test_analysis_endpoint():
- c=TestClient(app)
- payload={'room':{'width':108,'length':144},'furniture':[],'features':[]}
- response=c.post('/api/analyze',json=payload)
- assert response.status_code==200
- assert 'score_breakdown' in response.json()
+    payload = LayoutRequest(room=Room(width=108, length=144), furniture=[], features=[])
+    response = analyze(payload)
+    assert "score_breakdown" in response

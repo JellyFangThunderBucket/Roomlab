@@ -39,6 +39,13 @@ Binding to `0.0.0.0` makes the service reachable from the network. There is no a
 
 Default dimensions are planning defaults, not claims about every real furniture product and not building-code advice.
 
+### Wall feature coordinates
+
+Wall-bound features store `position` as inches from a consistent wall start: north
+and south begin at the left/west corner; east and west begin at the top/north
+corner. A feature must fit completely on its wall. The editor validates wall,
+width, position, hinge, and swing together before changing project state.
+
 ## CLI
 
 ```bash

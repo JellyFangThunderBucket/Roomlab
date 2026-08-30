@@ -94,7 +94,7 @@ def score_layout(items,room,features,context=None):
     access_clear=True
     if dresser and dresser_wall:
         zone=_front_zone(dresser,dresser_wall);access_clear=not any(intersects(zone,x) for x in items if x.id!=dresser.id)
-    walkway=paths["minimum_walkway"] or 36
+    walkway=paths["minimum_walkway"] if paths["minimum_walkway"] is not None else 36
     breakdown={
       "bounds":max(0,10-outside*10),"collision":max(0,20-collisions*10),
       "door_clearance":max(0,15-openings*15-swings*7),"entry_path":15 if paths["entry_path"]=="Clear" else 8 if paths["entry_path"]=="Restricted" else 0,
