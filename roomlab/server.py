@@ -9,6 +9,16 @@ from .layout import score_layout
 from .storage import Storage
 
 static=Path(__file__).parent/'static'; app=FastAPI(title='ROOMLAB',version='1.0.0'); store=Storage()
+
+@app.middleware('http')
+async def prevent_stale_ui(request, call_next):
+    """ROOMLAB is updated in place, so the browser must revalidate its app shell."""
+    response = await call_next(request)
+    if request.url.path == '/' or request.url.path.startswith('/static/'):
+        response.headers['Cache-Control'] = 'no-store, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+    return response
+
 app.mount('/static',StaticFiles(directory=static),name='static')
 @app.get('/')
 def index(): return FileResponse(static/'index.html')

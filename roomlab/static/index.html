@@ -4,7 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=yes">
   <title>ROOMLAB</title>
-  <link rel="stylesheet" href="/static/styles.css?v=drawer-toggle-1">
+  <link rel="stylesheet" href="/static/styles.css?v=drawer-toggle-2">
+  <!-- Critical navigation CSS is inline so a stale cached stylesheet cannot hide
+       the only portrait entry point to the workspace tools. -->
+  <style>
+    #drawerButton{display:none!important}
+    @media(max-width:700px){#drawerButton{display:inline-flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;position:relative!important;inset:auto!important;align-items:center;justify-content:center;flex:0 0 40px;width:40px!important;min-width:40px;height:40px!important;z-index:20}}
+  </style>
 </head>
 <body>
 <header id="appHeader">
@@ -51,5 +57,5 @@
 <dialog id="layoutDialog"><div class="layoutLabHeader"><h2>SMART ARRANGE</h2><button id="closeLayoutLab" aria-label="Close Layout Lab">×</button></div><p class="hint">Deterministic planning heuristics, not building-code determinations.</p><div id="layoutList"></div><div id="layoutPreviewActions" hidden><button id="applyLayout">APPLY LAYOUT</button><button id="backLayouts">BACK</button></div></dialog>
 <dialog id="featureDialog"><form id="featureForm"><h2 id="featureEditorTitle">Feature</h2><input id="featureId" type="hidden"><input id="featureType" type="hidden"><label>Wall <select id="featureWall"><option value="north">North</option><option value="south">South</option><option value="east">East</option><option value="west">West</option></select></label><label>Width <input id="featureWidth" value="30 in" inputmode="decimal"></label><label>Distance from corner <input id="featurePosition" value="6 in" inputmode="decimal"></label><div id="closetOptions" hidden><label>Closet depth <input id="featureDepth" value="24 in" inputmode="decimal"></label><label>Access clearance <input id="featureAccess" value="36 in" inputmode="decimal"></label></div><div id="doorOptions"><label>Hinge <select id="featureHinge"><option value="left">Left</option><option value="right">Right</option></select></label><label>Swing <select id="featureSwing"><option value="in">Inward</option><option value="out">Outward</option></select></label></div><p id="featureError" class="formError" role="alert"></p><menu><button id="cancelFeature" type="button">Cancel</button><button id="applyFeature" type="submit">APPLY</button></menu></form></dialog>
 <dialog id="customDialog"><form method="dialog"><h2>Custom furniture</h2><label>Name <input id="customName" required value="Custom Item"></label><label>Width <input id="customWidth" required value="24 in"></label><label>Depth <input id="customDepth" required value="24 in"></label><label>Category <select id="customCategory"><option>Custom</option><option>Bedroom</option><option>Seating</option><option>Tables</option><option>Storage</option><option>Office</option><option>Dining</option></select></label><menu><button value="cancel">Cancel</button><button id="addCustom" value="default">Save to library</button></menu></form></dialog>
-<script src="/static/gestures.js"></script><script src="/static/interactions.js"></script><script src="/static/app.js"></script>
+<script src="/static/gestures.js?v=drawer-toggle-2"></script><script src="/static/interactions.js?v=drawer-toggle-2"></script><script src="/static/app.js?v=drawer-toggle-2"></script>
 </body></html>

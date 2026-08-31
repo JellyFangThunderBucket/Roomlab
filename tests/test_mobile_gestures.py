@@ -139,7 +139,14 @@ def test_portrait_drawer_toggle_is_unconditionally_visible_and_wired():
     assert 'flex:0 0 40px' in STYLES
     assert "$('#drawerButton').onclick=()=>openSheet('furniture')" in APP
     assert "if(responsiveMode()==='wide')return" in APP
-    assert 'styles.css?v=drawer-toggle-1' in INDEX
+    assert 'styles.css?v=drawer-toggle-2' in INDEX
+    assert '#drawerButton{display:none!important}' in INDEX
+    assert '@media(max-width:700px){#drawerButton{display:inline-flex!important' in INDEX
+    assert 'visibility:visible!important' in INDEX
+    assert 'opacity:1!important' in INDEX
+    assert 'pointer-events:auto!important' in INDEX
+    assert 'width:40px!important' in INDEX and 'height:40px!important' in INDEX
+    assert 'app.js?v=drawer-toggle-2' in INDEX
 
 
 def test_narrow_drawer_exposes_real_room_and_view_controls():
@@ -150,3 +157,14 @@ def test_narrow_drawer_exposes_real_room_and_view_controls():
     assert "syncDrawerControls" in APP
     assert "$('#drawerFit').onclick" in APP
     assert "$('#drawerMeasure').onclick" in APP
+
+
+def test_runtime_audits_actual_toggle_box_and_interactivity():
+    assert 'function auditDrawerToggle()' in APP
+    for condition in ("style.display!=='none'", "style.visibility!=='hidden'",
+                      "+style.opacity>0", "style.pointerEvents!=='none'",
+                      'box.width>0', 'box.height>0', 'box.left>=0',
+                      'box.right<=innerWidth', 'box.bottom<=innerHeight'):
+        assert condition in APP
+    assert 'requestAnimationFrame(auditDrawerToggle)' in APP
+    assert "button.dataset.rendered=String(state.visible)" in APP

@@ -17,3 +17,11 @@ def test_analysis_endpoint():
     payload = LayoutRequest(room=Room(width=108, length=144), furniture=[], features=[])
     response = analyze(payload)
     assert "score_breakdown" in response
+
+
+def test_app_shell_and_assets_cannot_be_served_stale():
+    source = (static.parent / 'server.py').read_text()
+    assert "request.url.path == '/'" in source
+    assert "request.url.path.startswith('/static/')" in source
+    assert "response.headers['Cache-Control'] = 'no-store, max-age=0'" in source
+    assert "response.headers['Pragma'] = 'no-cache'" in source
