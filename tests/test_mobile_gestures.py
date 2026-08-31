@@ -81,3 +81,17 @@ def test_filter_clears_a_selected_item_that_is_no_longer_visible():
     assert "catalogSelected&&!matches.some" in APP
     assert "catalogSelected=null;showCatalogAction(null)" in APP
     assert 'aria-pressed="${catalogSelected===x.id}"' in APP
+
+
+def test_add_failures_are_visible_and_do_not_close_the_sheet():
+    handler = APP[APP.index("$('#addSelectedFurniture').onclick"):APP.index(";$('#search').oninput")]
+    assert "try{addFurniture(c);closeSheets()}catch(err)" in handler
+    assert "console.error('Could not add furniture',err)" in handler
+    assert "setStatus(`Could not add furniture: ${err.message}`,true)" in handler
+
+
+def test_mobile_status_is_a_transient_hidden_toast():
+    assert "$('#status').hidden=isMobile()" in APP
+    assert "if(isMobile()){el.hidden=true;el.textContent=''}else el.textContent='Ready'" in APP
+    assert "#status[hidden]{display:none!important}" in STYLES
+    assert "#status{top:calc(var(--header-h) + 8px);bottom:auto}" in STYLES

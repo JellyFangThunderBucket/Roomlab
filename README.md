@@ -39,6 +39,11 @@ Binding to `0.0.0.0` makes the service reachable from the network. There is no a
 - On phones, open **Furniture**, tap one catalog row, then use the persistent
   **Add to Room** footer. The footer remains visible while the catalog scrolls;
   adding creates one centered, selected item and closes the sheet.
+- Client-created furniture and features use browser UUIDs when available and a
+  dependency-free collision-resistant fallback otherwise, so editing continues
+  to work when ROOMLAB is opened from an HTTP server address. Mobile status
+  messages are transient and disappear completely instead of leaving a
+  permanent “Ready” overlay.
 
 Default dimensions are planning defaults, not claims about every real furniture product and not building-code advice.
 

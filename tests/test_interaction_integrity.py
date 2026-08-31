@@ -27,6 +27,45 @@ def test_catalog_selection_is_separate_from_authoritative_add_flow():
     assert created["width"] == 76 and created["depth"] == 80
 
 
+def test_uid_fallback_works_without_random_uuid_and_stays_unique():
+    ids = js("(()=>{const runtime={crypto:{},Date:{now:()=>1700000000000},"
+             "performance:{now:()=>12.5},Math:{random:()=>.25}};"
+             "return[x.uid(runtime),x.uid(runtime),x.uid(runtime)]})()")
+    assert len(ids) == len(set(ids)) == 3
+    assert all(isinstance(value, str) and value.startswith("roomlab-") for value in ids)
+
+
+def test_uid_falls_back_when_random_uuid_exists_but_throws():
+    value = js("x.uid({crypto:{randomUUID(){throw Error('secure context only')}},"
+               "Date:{now:()=>1},performance:{now:()=>2},Math:{random:()=>.5}})")
+    assert isinstance(value, str) and value.startswith("roomlab-")
+
+
+def test_http_style_runtime_can_create_furniture_door_and_window_ids():
+    result = js("(()=>{const runtime={crypto:{},Date:{now:()=>10},performance:{now:()=>20},"
+                "Math:{random:()=>.1}},room={width:108,length:144};"
+                "const furniture=['Full Bed','King Bed','Nightstand','Dresser'].map((name,i)=>"
+                "x.createFurniture({id:'c'+i,name,category:'Beds',width:40+i,depth:70},room,x.uid(runtime)));"
+                "const door=x.validateFeature({id:x.uid(runtime),type:'door',wall:'north',width:30,position:6},room);"
+                "const window=x.validateFeature({id:x.uid(runtime),type:'window',wall:'east',width:36,position:12},room);"
+                "return{furniture,door,window}})()")
+    ids = [item["id"] for item in result["furniture"]] + [result["door"]["id"], result["window"]["id"]]
+    assert len(ids) == len(set(ids)) == 6
+    assert all(ids)
+
+
+def test_add_transaction_appends_exactly_one_item_per_fallback_id():
+    result = js("(()=>{const runtime={crypto:{},Date:{now:()=>10},performance:{now:()=>20},"
+                "Math:{random:()=>.1}},project={room:{width:108,length:144},furniture:[]},"
+                "catalog={id:'full',name:'Full Bed',category:'Beds',width:54,depth:75};"
+                "const first=x.appendFurniture(project,catalog,x.uid(runtime));"
+                "const second=x.appendFurniture(project,catalog,x.uid(runtime));"
+                "return{count:project.furniture.length,first,second}})()")
+    assert result["count"] == 2
+    assert result["first"]["id"] != result["second"]["id"]
+    assert result["first"]["x"] == result["second"]["x"] == 27
+
+
 def test_default_add_clamps_large_furniture_inside_room():
     created = js("x.createFurniture({id:'large',name:'Large',category:'Custom',width:120,depth:160},"
                  "{width:108,length:144},'id')")
