@@ -36,6 +36,9 @@ Binding to `0.0.0.0` makes the service reachable from the network. There is no a
 - Generate three deterministic wall-based layouts scored for bounds, collisions, wall placement, and doorway obstruction.
 - Save/autosave JSON projects, load, duplicate, delete, export JSON, and export Canvas PNG. Data defaults to `~/.roomlab/projects`; set `ROOMLAB_DATA` to relocate it.
 - Custom catalog dimensions persist in `~/.roomlab/custom_furniture.json`.
+- On phones, open **Furniture**, tap one catalog row, then use the persistent
+  **Add to Room** footer. The footer remains visible while the catalog scrolls;
+  adding creates one centered, selected item and closes the sheet.
 
 Default dimensions are planning defaults, not claims about every real furniture product and not building-code advice.
 

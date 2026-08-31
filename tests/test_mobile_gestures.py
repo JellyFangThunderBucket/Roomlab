@@ -64,3 +64,20 @@ def test_sheet_state_has_open_close_and_escape_paths():
     assert "function closeSheets()" in APP
     assert "$('#sheetBackdrop').onclick=closeSheets" in APP
     assert "document.querySelector('.mobileSheet.open')" in APP
+
+
+def test_mobile_catalog_action_is_anchored_outside_scrolling_catalog():
+    scroll_start = INDEX.index('id="catalogScroll"')
+    scroll_end = INDEX.index('</div><div id="catalogAction"', scroll_start)
+    action_start = INDEX.index('id="catalogAction"')
+    assert scroll_start < scroll_end < action_start
+    assert "#catalogScroll{flex:1 1 auto" in STYLES
+    assert "#catalogAction{position:relative" in STYLES
+    assert "env(safe-area-inset-bottom)" in STYLES
+    assert "ADD TO ROOM" in INDEX
+
+
+def test_filter_clears_a_selected_item_that_is_no_longer_visible():
+    assert "catalogSelected&&!matches.some" in APP
+    assert "catalogSelected=null;showCatalogAction(null)" in APP
+    assert 'aria-pressed="${catalogSelected===x.id}"' in APP

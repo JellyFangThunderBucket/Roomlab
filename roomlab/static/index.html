@@ -26,7 +26,7 @@
 <main>
   <aside id="library" class="mobileSheet" aria-label="Furniture library">
     <div class="sheetHandle"></div><button class="sheetClose mobileOnly" data-close-sheet aria-label="Close furniture panel">×</button>
-    <section id="furnitureSection"><h2>FURNITURE</h2><input id="search" placeholder="Filter catalog" aria-label="Filter furniture catalog"><div id="catalog"></div><div id="catalogAction" hidden><small>Selected:</small><b id="catalogSelectedName"></b><span id="catalogSelectedSize"></span><button id="addSelectedFurniture">ADD TO ROOM</button></div><button id="custom">+ Add custom item</button></section>
+    <section id="furnitureSection"><h2>FURNITURE</h2><input id="search" placeholder="Filter catalog" aria-label="Filter furniture catalog"><div id="catalogScroll"><div id="catalog"></div><button id="custom">+ Add custom item</button></div><div id="catalogAction" hidden aria-live="polite"><small>Selected:</small><b id="catalogSelectedName"></b><span id="catalogSelectedSize"></span><button id="addSelectedFurniture">ADD TO ROOM</button></div></section>
     <section id="featuresSection"><hr><h2>FEATURES</h2><p class="mobileHint">Choose a feature, then enter its wall details.</p><div class="featureBtns"><button data-feature="door">Door</button><button data-feature="window">Window</button><button data-feature="closet">Closet</button><button data-feature="opening">Opening</button><button data-feature="radiator">Radiator</button><button data-feature="fireplace">Fireplace</button><button data-feature="column">Column</button></div></section>
   </aside>
   <section id="workspace">
