@@ -8,41 +8,44 @@
 </head>
 <body>
 <header id="appHeader">
+  <button id="drawerButton" class="narrowOnly" aria-expanded="false" aria-controls="library" aria-label="Open workspace tools">☰</button>
   <b>ROOMLAB</b>
   <input id="projectName" value="9x12 Bedroom" aria-label="Project name">
   <div class="primaryActions">
     <button id="newRoom">Room</button><button id="save">Save</button><button id="load">Projects</button>
   </div>
-  <div class="desktopActions">
-    <button id="layouts">Smart Arrange</button><button id="exportJson">Export JSON</button><button id="exportPng">Export PNG</button>
-  </div>
-  <button id="moreButton" class="mobileOnly" aria-expanded="false" aria-controls="moreMenu">More</button>
+  <div class="desktopActions"><button id="layouts">Smart Arrange</button></div>
+  <button id="inspectorButton" class="compactOnly" aria-expanded="false" aria-controls="inspector">Inspect</button>
+  <button id="moreButton" aria-expanded="false" aria-controls="moreMenu">More</button>
   <div id="moreMenu" class="mobileMenu" hidden>
-    <button data-forward="layouts">Smart Arrange</button><button data-command="undo">Undo</button><button data-command="redo">Redo</button><button data-forward="exportJson">Export JSON</button><button data-forward="exportPng">Export PNG</button>
+    <button data-forward="layouts">Smart Arrange</button><button data-command="undo">Undo</button><button data-command="redo">Redo</button><button id="exportJson">Export JSON</button><button id="exportPng">Export PNG</button><button data-command="focus">Focus workspace</button>
   </div>
   <span class="spacer"></span>
   <label class="unitsControl">Units <select id="units"><option value="feet">ft/in</option><option value="inches">inches</option><option value="cm">cm</option></select></label>
 </header>
 <main>
   <aside id="library" class="mobileSheet" aria-label="Furniture library">
-    <div class="sheetHandle"></div><button class="sheetClose mobileOnly" data-close-sheet aria-label="Close furniture panel">×</button>
+    <div class="sheetHandle"></div><button class="sheetClose narrowOnly" data-close-sheet aria-label="Close furniture panel">×</button>
+    <nav class="drawerTabs narrowOnly" aria-label="Workspace tools"><button data-drawer-section="furniture">Furniture</button><button data-drawer-section="features">Features</button><button data-drawer-section="room">Room</button><button data-drawer-section="view">View</button></nav>
     <section id="furnitureSection"><h2>FURNITURE</h2><input id="search" placeholder="Filter catalog" aria-label="Filter furniture catalog"><div id="catalogScroll"><div id="catalog"></div><button id="custom">+ Add custom item</button></div><div id="catalogAction" hidden aria-live="polite"><small>Selected:</small><b id="catalogSelectedName"></b><span id="catalogSelectedSize"></span><button id="addSelectedFurniture">ADD TO ROOM</button></div></section>
     <section id="featuresSection"><hr><h2>FEATURES</h2><p class="mobileHint">Choose a feature, then enter its wall details.</p><div class="featureBtns"><button data-feature="door">Door</button><button data-feature="window">Window</button><button data-feature="closet">Closet</button><button data-feature="opening">Opening</button><button data-feature="radiator">Radiator</button><button data-feature="fireplace">Fireplace</button><button data-feature="column">Column</button></div></section>
+    <section id="roomSection" class="narrowOnly"><h2>ROOM</h2><p id="drawerRoomSummary"></p><button id="drawerRoomEdit">Edit room dimensions</button><label>Units <select id="drawerUnits"><option value="feet">ft/in</option><option value="inches">inches</option><option value="cm">cm</option></select></label><button data-forward="layouts">Smart Arrange</button></section>
+    <section id="viewSection" class="narrowOnly"><h2>VIEW</h2><label>Grid <select id="drawerGrid"><option>1</option><option selected>3</option><option>6</option><option>12</option></select>”</label><label><input type="checkbox" id="drawerSnap"> Grid snap</label><label><input type="checkbox" id="drawerSmartSnap"> Smart snap</label><label><input type="checkbox" id="drawerClearances"> Clearances</label><label><input type="checkbox" id="drawerAccessZones"> Access zones</label><button id="drawerFit">Fit room</button><button id="drawerMeasure">Measure</button><button id="drawerFocus">Focus workspace</button></section>
   </aside>
   <section id="workspace">
-    <div id="tools"><label>Grid <select id="grid"><option>1</option><option selected>3</option><option>6</option><option>12</option></select>”</label><label><input type="checkbox" id="snap" checked> Grid snap</label><label><input type="checkbox" id="smartSnap" checked> Smart snap</label><label><input type="checkbox" id="clearances"> Clearances</label><label><input type="checkbox" id="accessZones"> Access zones</label><button id="undo" title="Undo">Undo</button><button id="redo" title="Redo">Redo</button><button id="zoomOut" class="mobileOnly" aria-label="Zoom out">−</button><button id="zoomIn" class="mobileOnly" aria-label="Zoom in">+</button><button id="zoomFit">Fit</button><button id="measure">Measure</button><span id="status" hidden>Ready</span></div>
+    <div id="tools"><button id="quickArrange" class="narrowOnly">Arrange</button><button id="quickInspector" class="narrowOnly">Inspect</button><label>Grid <select id="grid"><option>1</option><option selected>3</option><option>6</option><option>12</option></select>”</label><label><input type="checkbox" id="snap" checked> Grid snap</label><label><input type="checkbox" id="smartSnap" checked> Smart snap</label><label><input type="checkbox" id="clearances"> Clearances</label><label><input type="checkbox" id="accessZones"> Access zones</label><button id="undo" title="Undo">Undo</button><button id="redo" title="Redo">Redo</button><button id="zoomOut" class="mobileOnly" aria-label="Zoom out">−</button><button id="zoomIn" class="mobileOnly" aria-label="Zoom in">+</button><button id="zoomFit">Fit</button><button id="measure">Measure</button><span id="status" hidden>Ready</span></div>
     <canvas id="canvas" aria-label="Room plan editor"></canvas>
   </section>
   <aside id="inspector" class="mobileSheet" aria-label="Furniture properties and room analysis">
-    <div class="sheetHandle"></div><button class="sheetClose mobileOnly" data-close-sheet aria-label="Close inspector">×</button>
+    <div class="sheetHandle"></div><button class="sheetClose compactOnly" data-close-sheet aria-label="Close inspector">×</button>
+    <nav class="inspectorTabs compactOnly"><button data-inspector-section="properties">Properties</button><button data-inspector-section="analysis">Analysis</button></nav>
     <section id="propertiesSection"><h2>PROPERTIES</h2><div id="properties"><p>Select a furniture item.</p></div></section>
     <section id="analysisSection"><h2>ROOM ANALYSIS</h2><p class="planningNote">Approximate planning heuristics; not a building-code determination.</p><div id="analysis"></div></section>
   </aside>
 </main>
 <div id="sheetBackdrop" class="mobileOnly" hidden></div>
-<nav id="mobileNav" class="mobileOnly" aria-label="Planner panels">
-  <button data-sheet="furniture"><span>＋</span>Furniture</button><button data-sheet="features"><span>⌑</span>Features</button><button data-sheet="properties"><span>▤</span>Properties</button><button data-sheet="analysis"><span>≡</span>Analysis</button>
-</nav>
+
+<button id="exitFocus" hidden>Exit focus</button>
 <dialog id="roomDialog"><form method="dialog"><h2>Room dimensions</h2><label>Width <input id="roomWidth" value="9 ft" required></label><label>Length <input id="roomLength" value="12 ft" required></label><div class="presets"></div><menu><button value="cancel">Cancel</button><button id="applyRoom" value="default">Apply</button></menu></form></dialog>
 <dialog id="projectDialog"><h2>Projects</h2><div id="projectList"></div><button onclick="this.closest('dialog').close()">Close</button></dialog>
 <dialog id="layoutDialog"><div class="layoutLabHeader"><h2>SMART ARRANGE</h2><button id="closeLayoutLab" aria-label="Close Layout Lab">×</button></div><p class="hint">Deterministic planning heuristics, not building-code determinations.</p><div id="layoutList"></div><div id="layoutPreviewActions" hidden><button id="applyLayout">APPLY LAYOUT</button><button id="backLayouts">BACK</button></div></dialog>

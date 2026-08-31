@@ -46,8 +46,10 @@ def test_button_zoom_anchors_requested_screen_point():
 
 
 def test_mobile_shell_and_touch_handlers_are_present():
-    for sheet in ("furniture", "features", "properties", "analysis"):
-        assert f'data-sheet="{sheet}"' in INDEX
+    for section in ("furniture", "features", "room", "view"):
+        assert f'data-drawer-section="{section}"' in INDEX
+    for section in ("properties", "analysis"):
+        assert f'data-inspector-section="{section}"' in INDEX
     assert 'id="zoomIn"' in INDEX and 'id="zoomOut"' in INDEX
     assert 'id="sheetBackdrop"' in INDEX
     assert "env(safe-area-inset-top)" in STYLES
@@ -114,3 +116,27 @@ def test_access_zone_and_smart_guide_controls_are_wired():
     assert "function drawSmartGuides()" in APP
     assert "Nearest furniture" in APP
     assert "Closet access" in APP and "Desk work zone" in APP
+
+
+def test_responsive_workspace_drawers_and_breakpoints_are_present():
+    assert 'id="drawerButton"' in INDEX
+    assert 'id="inspectorButton"' in INDEX
+    assert 'id="roomSection"' in INDEX and 'id="viewSection"' in INDEX
+    assert "function responsiveMode()" in APP
+    assert "innerWidth<=700?'narrow':innerWidth<1100?'compact':'wide'" in APP
+    assert 'function syncResponsiveWorkspace()' in APP
+    assert '@media (max-width:700px)' in STYLES
+    assert '@media (min-width:701px) and (max-width:1099px)' in STYLES
+    assert 'width:min(86vw,360px)' in STYLES
+    assert 'transform:translateX(-102%)' in STYLES
+    assert 'body.focusMode' in STYLES
+
+
+def test_narrow_drawer_exposes_real_room_and_view_controls():
+    for control in ('drawerRoomEdit', 'drawerUnits', 'drawerGrid', 'drawerSnap',
+                    'drawerSmartSnap', 'drawerClearances', 'drawerAccessZones',
+                    'drawerFit', 'drawerMeasure', 'drawerFocus'):
+        assert f'id="{control}"' in INDEX
+    assert "syncDrawerControls" in APP
+    assert "$('#drawerFit').onclick" in APP
+    assert "$('#drawerMeasure').onclick" in APP

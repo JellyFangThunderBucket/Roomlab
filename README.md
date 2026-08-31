@@ -41,6 +41,12 @@ Binding to `0.0.0.0` makes the service reachable from the network. There is no a
   affect usability scoring but are not furniture or building-code claims.
 - Undo/redo covers meaningful furniture, feature, room, drag, and Smart Arrange
   changes (`Ctrl/Cmd+Z` and `Ctrl/Cmd+Shift+Z`; mobile commands are under More).
+- The responsive drafting workspace keeps the three-pane desktop layout on wide
+  screens, uses a persistent tool rail plus collapsible inspector at compact widths,
+  and provides canvas-first left/right drawers on portrait phones. The Tools drawer
+  contains Furniture, Features, Room, and View controls.
+- **More → Focus workspace** hides nonessential application chrome without changing
+  the plan or camera; **Exit focus** returns to the normal workspace.
 - Save/autosave JSON projects, load, duplicate, delete, export JSON, and export Canvas PNG. Data defaults to `~/.roomlab/projects`; set `ROOMLAB_DATA` to relocate it.
 - Custom catalog dimensions persist in `~/.roomlab/custom_furniture.json`.
 - On phones, open **Furniture**, tap one catalog row, then use the persistent
