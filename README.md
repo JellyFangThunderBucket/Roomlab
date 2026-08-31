@@ -33,7 +33,14 @@ Binding to `0.0.0.0` makes the service reachable from the network. There is no a
 - Edit footprint, position, name and clearance; rotate, duplicate, delete, center, or wall-align. Keyboard controls: **R**, **Delete**, **Ctrl/Cmd+D**, arrows, Shift+arrows, and Escape.
 - Select measurement mode and two points. Selected objects report all four wall clearances and a heuristic fit result.
 - Add doors, windows, closets, openings, radiators, fireplaces, and columns. Doors have an architectural swing indication.
-- Generate three deterministic wall-based layouts scored for bounds, collisions, wall placement, and doorway obstruction.
+- **Smart Arrange** opens a Layout Lab with up to three meaningfully different,
+  explainable arrangements. Preview is non-destructive; Apply commits the
+  candidate, stores compare variants, autosaves it, and creates one undo step.
+- Optional access-zone overlays show bed approaches, desk chair/work space,
+  dresser/storage service space, and closet clearance. These planning envelopes
+  affect usability scoring but are not furniture or building-code claims.
+- Undo/redo covers meaningful furniture, feature, room, drag, and Smart Arrange
+  changes (`Ctrl/Cmd+Z` and `Ctrl/Cmd+Shift+Z`; mobile commands are under More).
 - Save/autosave JSON projects, load, duplicate, delete, export JSON, and export Canvas PNG. Data defaults to `~/.roomlab/projects`; set `ROOMLAB_DATA` to relocate it.
 - Custom catalog dimensions persist in `~/.roomlab/custom_furniture.json`.
 - On phones, open **Furniture**, tap one catalog row, then use the persistent
@@ -114,8 +121,10 @@ roomlab serve --reload
 ## Current limitations
 
 - Shift-click multi-selection supports edge/center alignment and horizontal/vertical distribution; dragging a selected group as one unit is not yet included.
-- Wall features use direct prompts rather than a dedicated property inspector. Closets/radiators/fireplaces are wall marks; columns are floor rectangles.
-- The deterministic generator is intentionally compact. It considers primary wall placement, bounds, collisions, and door swings, but does not yet calculate a navigable path graph or window-height compatibility.
+- Wall features use a compact editor and property inspector. Columns remain floor rectangles.
+- Smart Arrange targets rectangular rooms and axis-aligned furniture. It models
+  one primary bed, up to two nightstands, and the first dresser and desk in
+  detail; additional pieces remain fixed while candidates are evaluated.
 - Measurement is point-to-point; selected-item wall distances are automatic, while explicit edge-to-edge furniture measurement is not yet a separate mode.
 - PDF export, authentication, collaboration, and photorealistic/3D rendering are intentionally absent.
 

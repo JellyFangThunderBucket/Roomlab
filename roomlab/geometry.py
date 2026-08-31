@@ -105,3 +105,50 @@ def window_obstructions(items, features, room):
             if touches_wall(item,f.wall,room) and feature_overlap_on_wall(item,f):
                 total += 2 if item.blocks_window or not item.allow_under_window else 1
     return total
+
+def access_zone(item, room, depth=None):
+    """Return the inward service zone in front of wall-oriented furniture."""
+    from types import SimpleNamespace
+    x1,y1,x2,y2=rect(item); w,d=footprint(item)
+    depth=float(depth if depth is not None else getattr(item,"preferred_clearance_front",30) or 30)
+    distances=wall_distances(item,room.width,room.length); wall=min(distances,key=distances.get)
+    if wall=="top": return SimpleNamespace(x=x1,y=y2,width=w,depth=depth,rotation=0,owner=item.id,kind="furniture")
+    if wall=="bottom": return SimpleNamespace(x=x1,y=y1-depth,width=w,depth=depth,rotation=0,owner=item.id,kind="furniture")
+    if wall=="left": return SimpleNamespace(x=x2,y=y1,width=depth,depth=d,rotation=0,owner=item.id,kind="furniture")
+    return SimpleNamespace(x=x1-depth,y=y1,width=depth,depth=d,rotation=0,owner=item.id,kind="furniture")
+
+def closet_access_zone(feature, room):
+    """Planning-only clearance extending inward from a closet/opening."""
+    from types import SimpleNamespace
+    p,w=feature.position,feature.width; depth=getattr(feature,"access_clearance",36) or 36
+    if feature.wall=="north": return SimpleNamespace(x=p,y=0,width=w,depth=depth,rotation=0,owner=feature.id,kind="closet")
+    if feature.wall=="south": return SimpleNamespace(x=p,y=room.length-depth,width=w,depth=depth,rotation=0,owner=feature.id,kind="closet")
+    if feature.wall=="west": return SimpleNamespace(x=0,y=p,width=depth,depth=w,rotation=0,owner=feature.id,kind="closet")
+    return SimpleNamespace(x=room.width-depth,y=p,width=depth,depth=w,rotation=0,owner=feature.id,kind="closet")
+
+def bed_access_zones(item, depth=24):
+    """Side approach envelopes; the headboard edge is deliberately excluded."""
+    from types import SimpleNamespace
+    x1,y1,x2,y2=rect(item);w,d=footprint(item)
+    if item.rotation%180:
+        return [SimpleNamespace(x=x1,y=y1-depth,width=w,depth=depth,rotation=0,owner=item.id,kind="bed"),
+                SimpleNamespace(x=x1,y=y2,width=w,depth=depth,rotation=0,owner=item.id,kind="bed")]
+    return [SimpleNamespace(x=x1-depth,y=y1,width=depth,depth=d,rotation=0,owner=item.id,kind="bed"),
+            SimpleNamespace(x=x2,y=y1,width=depth,depth=d,rotation=0,owner=item.id,kind="bed")]
+
+def access_conflicts(items, features, room):
+    """Report service-zone restrictions separately from physical collisions."""
+    result={"closet":0,"desk":0,"dresser":0,"storage":0,"bed":0}
+    for feature in features:
+        if feature.type in ("closet","opening"):
+            zone=closet_access_zone(feature,room)
+            result["closet"] += sum(intersects(item,zone) for item in items)
+    for item in items:
+        name=item.name.lower(); role=getattr(item,"furniture_role","other")
+        kind="desk" if role=="desk" or "desk" in name else "dresser" if role=="dresser" or "dresser" in name or "chest" in name else "storage" if role=="storage" or any(x in name for x in ("cabinet","wardrobe","bookshelf")) else None
+        if kind:
+            zone=access_zone(item,room,36 if kind=="desk" else 30)
+            result[kind] += sum(intersects(other,zone) for other in items if other.id!=item.id)
+        if getattr(item,"furniture_role","other")=="bed" or " bed" in f" {name}":
+            result["bed"] += sum(any(intersects(other,zone) for other in items if other.id!=item.id) for zone in bed_access_zones(item))
+    return result

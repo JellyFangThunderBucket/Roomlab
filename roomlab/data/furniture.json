@@ -357,7 +357,7 @@
     "blocks_window": true,
     "center_on_wall_preferred": true,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "storage"
   },
   {
     "id": "desk",
@@ -372,7 +372,7 @@
     "notes": "Default planning dimension; edit to match your furniture.",
     "placement_type": "wall_preferred",
     "anchor_edge": "back",
-    "preferred_clearance_front": 30,
+    "preferred_clearance_front": 36,
     "preferred_clearance_back": 0,
     "preferred_clearance_left": 12,
     "preferred_clearance_right": 12,
@@ -381,7 +381,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "desk"
   },
   {
     "id": "large-desk",
@@ -396,7 +396,7 @@
     "notes": "Default planning dimension; edit to match your furniture.",
     "placement_type": "wall_preferred",
     "anchor_edge": "back",
-    "preferred_clearance_front": 30,
+    "preferred_clearance_front": 36,
     "preferred_clearance_back": 0,
     "preferred_clearance_left": 12,
     "preferred_clearance_right": 12,
@@ -405,7 +405,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "desk"
   },
   {
     "id": "desk-chair",
@@ -501,7 +501,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "sofa"
   },
   {
     "id": "standard-sofa",
@@ -525,7 +525,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "sofa"
   },
   {
     "id": "large-sofa",
@@ -549,7 +549,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "sofa"
   },
   {
     "id": "loveseat",
@@ -573,7 +573,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "sofa"
   },
   {
     "id": "armchair",
@@ -621,7 +621,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "sofa"
   },
   {
     "id": "coffee-table-small",
@@ -741,7 +741,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": true,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "storage"
   },
   {
     "id": "large-tv-console",
@@ -765,7 +765,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": true,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "storage"
   },
   {
     "id": "bookshelf",
@@ -789,7 +789,7 @@
     "blocks_window": true,
     "center_on_wall_preferred": true,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "storage"
   },
   {
     "id": "small-dining-table",
@@ -813,7 +813,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "dining"
   },
   {
     "id": "4-person-table",
@@ -837,7 +837,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "dining"
   },
   {
     "id": "6-person-table",
@@ -861,7 +861,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "dining"
   },
   {
     "id": "8-person-table",
@@ -885,7 +885,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": false,
     "relationship": null,
-    "furniture_role": "other"
+    "furniture_role": "dining"
   },
   {
     "id": "dining-chair",
@@ -933,7 +933,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": true,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "storage"
   },
   {
     "id": "cabinet",
@@ -957,7 +957,7 @@
     "blocks_window": false,
     "center_on_wall_preferred": true,
     "relationship": "against wall",
-    "furniture_role": "other"
+    "furniture_role": "storage"
   },
   {
     "id": "custom-rectangle",

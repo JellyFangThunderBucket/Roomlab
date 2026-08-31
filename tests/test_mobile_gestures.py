@@ -95,3 +95,22 @@ def test_mobile_status_is_a_transient_hidden_toast():
     assert "if(isMobile()){el.hidden=true;el.textContent=''}else el.textContent='Ready'" in APP
     assert "#status[hidden]{display:none!important}" in STYLES
     assert "#status{top:calc(var(--header-h) + 8px);bottom:auto}" in STYLES
+
+
+def test_smart_arrange_preview_apply_and_undo_controls_are_real():
+    assert "Smart Arrange" in INDEX and 'id="layoutPreviewActions"' in INDEX
+    assert 'id="applyLayout"' in INDEX and 'id="backLayouts"' in INDEX
+    assert "function previewLayout(index)" in APP
+    assert "previewFurniture=JSON.parse(JSON.stringify(currentPreview.furniture))" in APP
+    assert "function applySmartLayout()" in APP
+    assert "checkpoint('Smart Arrange')" in APP
+    assert "project.layout_variants=smartLayouts.map" in APP
+    assert "function undo()" in APP and "function redo()" in APP
+
+
+def test_access_zone_and_smart_guide_controls_are_wired():
+    assert 'id="accessZones"' in INDEX
+    assert "function drawAccessZones()" in APP
+    assert "function drawSmartGuides()" in APP
+    assert "Nearest furniture" in APP
+    assert "Closet access" in APP and "Desk work zone" in APP

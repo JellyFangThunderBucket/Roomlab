@@ -89,6 +89,19 @@ def test_rotation_duplicate_property_apply_and_delete_primitives():
     assert duplicate["id"] == "b" and duplicate["x"] == 13
 
 
+def test_history_groups_drag_and_smart_arrange_as_single_undo_steps():
+    result = js("(()=>{let h=x.createHistory(),before={furniture:[{id:'a',x:0}]},"
+                "moved={furniture:[{id:'a',x:30}]},arranged={furniture:[{id:'a',x:60}]};"
+                "x.recordHistory(h,before,'move furniture');"
+                "x.recordHistory(h,moved,'Smart Arrange');"
+                "let undoArrange=x.undoHistory(h,arranged),undoMove=x.undoHistory(h,undoArrange.state);"
+                "let redoMove=x.redoHistory(h,undoMove.state);"
+                "return{undoArrange,undoMove,redoMove,past:h.past.length,future:h.future.length}})()")
+    assert result["undoArrange"]["state"]["furniture"][0]["x"] == 30
+    assert result["undoMove"]["state"]["furniture"][0]["x"] == 0
+    assert result["redoMove"]["state"]["furniture"][0]["x"] == 30
+
+
 def test_feature_create_update_validation_and_wall_mappings():
     for wall, expected in {
         "north": (40, 0, 72, 0), "south": (40, 144, 72, 144),

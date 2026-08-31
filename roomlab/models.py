@@ -16,7 +16,7 @@ class FurnitureItem(BaseModel):
     blocks_window: bool = False
     center_on_wall_preferred: bool = False
     relationship: str | None = None
-    furniture_role: Literal["bed", "nightstand", "dresser", "other"] = "other"
+    furniture_role: Literal["bed", "nightstand", "dresser", "desk", "sofa", "storage", "dining", "other"] = "other"
 
 class PlacedItem(BaseModel):
     id: str; catalog_id: str = "custom-rectangle"; name: str; category: str = "Custom"
@@ -33,12 +33,13 @@ class PlacedItem(BaseModel):
     blocks_window: bool = False
     center_on_wall_preferred: bool = False
     relationship: str | None = None
-    furniture_role: Literal["bed", "nightstand", "dresser", "other"] = "other"
+    furniture_role: Literal["bed", "nightstand", "dresser", "desk", "sofa", "storage", "dining", "other"] = "other"
 
 class Feature(BaseModel):
     id: str; type: Literal["door", "window", "closet", "opening", "radiator", "fireplace", "column"]
     wall: Literal["north", "south", "east", "west"] = "north"; position: float = 12
     width: float = 30; depth: float = 4; hinge: str = "left"; swing: str = "in"
+    access_clearance: float = 36
 
 class Room(BaseModel):
     width: float = Field(gt=0, le=2400); length: float = Field(gt=0, le=2400)
@@ -48,6 +49,7 @@ class Project(BaseModel):
     furniture: list[PlacedItem] = Field(default_factory=list)
     features: list[Feature] = Field(default_factory=list)
     settings: dict = Field(default_factory=lambda: {"units":"feet", "grid":3, "snap":True, "show_clearances":False})
+    layout_variants: list[dict] = Field(default_factory=list)
 
 class LayoutRequest(BaseModel):
     room: Room; furniture: list[PlacedItem]
