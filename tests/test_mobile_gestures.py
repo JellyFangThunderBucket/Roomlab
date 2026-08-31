@@ -132,6 +132,16 @@ def test_responsive_workspace_drawers_and_breakpoints_are_present():
     assert 'body.focusMode' in STYLES
 
 
+def test_portrait_drawer_toggle_is_unconditionally_visible_and_wired():
+    assert 'id="drawerButton" class="narrowOnly" type="button"' in INDEX
+    assert 'aria-controls="library"' in INDEX
+    assert '#drawerButton{display:inline-flex!important;visibility:visible' in STYLES
+    assert 'flex:0 0 40px' in STYLES
+    assert "$('#drawerButton').onclick=()=>openSheet('furniture')" in APP
+    assert "if(responsiveMode()==='wide')return" in APP
+    assert 'styles.css?v=drawer-toggle-1' in INDEX
+
+
 def test_narrow_drawer_exposes_real_room_and_view_controls():
     for control in ('drawerRoomEdit', 'drawerUnits', 'drawerGrid', 'drawerSnap',
                     'drawerSmartSnap', 'drawerClearances', 'drawerAccessZones',
